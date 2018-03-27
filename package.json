@@ -1,0 +1,59 @@
+{
+  "name": "http-json-proxy",
+  "version": "1.0.0",
+  "description": "Simple HTTP JSON proxy",
+  "keywords": [
+    "http",
+    "json",
+    "proxy",
+    "node",
+    "log"
+  ],
+  "license": "MIT",
+  "author": "Gabriel Montes <gabriel@bloq.com>",
+  "files": [
+    "bin",
+    "src"
+  ],
+  "main": "src/index.js",
+  "bin": {
+    "http-json-proxy": "bin/proxy.js"
+  },
+  "repository": "bloq/http-json-proxy",
+  "scripts": {
+    "check": "npm-check -i eslint-config* -i husky",
+    "coverage": "nyc --lines 95 --functions 95 --branches 95 --reporter=lcov --reporter=text npm test",
+    "lint": "eslint --cache .",
+    "precommit": "npm run lint",
+    "prepublishOnly": "npm run precommit && npm run prepush && tag-matches",
+    "prepush": "npm run check && npm run coverage",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "body-parser": "1.18.2",
+    "connect": "3.6.6",
+    "http-proxy": "1.16.2",
+    "node-http-proxy-json": "0.1.6",
+    "yargs": "11.0.0"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "check-tag-matches": "1.0.0",
+    "eslint": "4.19.1",
+    "eslint-config-bloq": "1.2.2",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "2.9.0",
+    "eslint-plugin-jsdoc": "3.5.0",
+    "eslint-plugin-mocha": "5.0.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-prefer-arrow": "1.1.1",
+    "eslint-plugin-promise": "3.7.0",
+    "eslint-plugin-standard": "3.0.1",
+    "got": "8.3.0",
+    "husky": "0.14.3",
+    "mocha": "5.0.5",
+    "npm-check": "5.6.0",
+    "nyc": "11.6.0",
+    "promise-prototype-finally": "1.0.0"
+  }
+}
