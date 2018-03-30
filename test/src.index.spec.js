@@ -36,7 +36,7 @@ describe('Proxy', function () {
     return got(`http://localhost:${testProxy.address().port}/path`, {
       body: reqBody,
       json: true,
-      timeout: 50
+      timeout: 500
     })
       .then(function (res) {
         res.body.should.deep.equal({
@@ -79,7 +79,7 @@ describe('Proxy', function () {
     return got(`http://localhost:${testProxy.address().port}`, {
       body: reqBody,
       json: true,
-      timeout: 50
+      timeout: 500
     })
       .then(function (res) {
         res.body.should.deep.equal({
@@ -132,7 +132,7 @@ describe('Proxy', function () {
     testServer.close(function () {
       got(`http://localhost:${testProxy.address().port}`, {
         throwHttpErrors: false,
-        timeout: 50
+        timeout: 500
       })
         .then(function (res) {
           res.statusCode.should.equal(INTERNAL_SERVER_ERROR)
