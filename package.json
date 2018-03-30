@@ -21,7 +21,8 @@
   },
   "repository": "bloq/http-json-proxy",
   "scripts": {
-    "check": "npm-check -i eslint-config* -i husky",
+    "check": "dependency-check . && dependency-check . --unused --no-dev",
+    "check:outdated": "npm-check",
     "coverage": "nyc --lines 95 --functions 95 --branches 95 --reporter=lcov --reporter=text npm test",
     "lint": "eslint --cache .",
     "precommit": "npm run lint",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "chai": "4.1.2",
     "check-tag-matches": "1.0.0",
+    "dependency-check": "3.1.0",
     "eslint": "4.19.1",
     "eslint-config-bloq": "1.2.2",
     "eslint-config-standard": "11.0.0",
