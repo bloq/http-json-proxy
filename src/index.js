@@ -41,7 +41,7 @@ function createProxy (options) {
     onReq,
     onRes,
     onErr
-  } = { ...onDefaults, ...options }
+  } = Object.assign({}, onDefaults, options)
 
   const proxy = httpProxy.createProxyServer({})
 

@@ -42,7 +42,7 @@ describe('Proxy', function () {
         res.body.should.deep.equal({
           method: 'POST',
           path: '/path',
-          req: { ...reqBody }
+          req: Object.assign({}, reqBody)
         })
       })
       .finally(function () {
@@ -67,10 +67,10 @@ describe('Proxy', function () {
     const testProxy = createProxy({
       target: `http://localhost:${testServer.address().port}`,
       onReq (req) {
-        return Object.assign(req, { body: { ...req.body, ...reqUpd } })
+        return Object.assign(req, { body: Object.assign({}, req.body, reqUpd) })
       },
       onRes (body) {
-        return { ...body, ...resUpd }
+        return Object.assign({}, body, resUpd)
       }
     })
 
@@ -82,10 +82,10 @@ describe('Proxy', function () {
       timeout: 500
     })
       .then(function (res) {
-        res.body.should.deep.equal({
-          req: { ...reqBody, ...reqUpd },
-          ...resUpd
-        })
+        res.body.should.deep.equal(Object.assign(
+          { req: Object.assign({}, reqBody, reqUpd) },
+          resUpd
+        ))
       })
       .finally(function () {
         testProxy.close()
