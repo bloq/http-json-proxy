@@ -13,6 +13,7 @@
   "author": "Gabriel Montes <gabriel@bloq.com>",
   "files": [
     "bin",
+    "lib",
     "src"
   ],
   "main": "src/index.js",
