@@ -3,12 +3,6 @@
     "node": true
   },
   "extends": [
-    "bloq",
-    "bloq/experimental"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": false
-    }
-  }
+    "bloq"
+  ]
 }

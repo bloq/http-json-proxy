@@ -1,5 +1,8 @@
 {
   "extends": [
-    "bloq/test-mocha"
-  ]
+    "bloq/mocha"
+  ],
+  "rules": {
+    "promise/catch-or-return": ["error", { "allowFinally": true }]
+  }
 }
