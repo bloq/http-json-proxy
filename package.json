@@ -5,9 +5,9 @@
   "keywords": [
     "http",
     "json",
-    "proxy",
+    "log",
     "node",
-    "log"
+    "proxy"
   ],
   "license": "MIT",
   "author": "Gabriel Montes <gabriel@bloq.com>",
@@ -22,43 +22,37 @@
   },
   "repository": "bloq/http-json-proxy",
   "scripts": {
-    "check": "dependency-check . --no-dev",
+    "check": "dependency-check . --ignore-module patch-package --no-dev",
     "check:outdated": "npm-check",
-    "coverage": "nyc --lines 95 --functions 95 --branches 95 --reporter=lcov --reporter=text npm test",
-    "lint": "eslint --cache .",
     "precommit": "npm run lint",
+    "coverage": "nyc --lines 95 --functions 95 --branches 95 --reporter=lcov --reporter=text npm test",
+    "postinstall": "patch-package",
+    "lint": "eslint --cache .",
     "prepublishOnly": "npm run precommit && npm run prepush && tag-matches",
     "prepush": "npm run check && npm run coverage",
     "test": "mocha"
   },
   "dependencies": {
-    "body-parser": "1.18.2",
-    "connect": "3.6.6",
-    "http-proxy": "1.18.1",
-    "json-colorizer": "1.1.0",
-    "node-http-proxy-json": "0.1.6",
+    "body-parser": "^1.20.3",
+    "connect": "^3.7.0",
+    "http-proxy": "^1.18.1",
+    "json-colorizer": "^1.1.1",
+    "node-http-proxy-json": "^0.1.9",
+    "patch-package": "^8.0.0",
     "selfsigned": "^2.4.1",
-    "yargs": "15.4.1"
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
-    "chai": "4.2.0",
-    "check-tag-matches": "1.0.0",
-    "dependency-check": "4.1.0",
-    "eslint": "7.6.0",
-    "eslint-config-bloq": "2.4.0",
-    "eslint-config-standard": "14.1.1",
-    "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-jsdoc": "30.2.2",
-    "eslint-plugin-mocha": "8.0.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-prefer-arrow": "1.2.2",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
-    "got": "8.3.0",
-    "husky": "0.14.3",
-    "mocha": "8.1.1",
-    "npm-check": "5.9.2",
-    "nyc": "15.1.0",
-    "promise-prototype-finally": "1.0.0"
+    "chai": "^4.5.0",
+    "check-tag-matches": "^1.0.0",
+    "dependency-check": "^4.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-bloq": "^4.5.0",
+    "got": "^9.6.0",
+    "husky": "^9.1.7",
+    "mocha": "^11.1.0",
+    "npm-check": "^6.0.1",
+    "nyc": "^17.1.0",
+    "promise-prototype-finally": "^1.0.0"
   }
 }
