@@ -1,0 +1,15 @@
+name: JS Checks
+
+on:
+  pull_request:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  js-checks:
+    uses: bloq/actions/.github/workflows/js-checks.yml@v1
+    with:
+      node-versions: '["18", "20", "22"]'

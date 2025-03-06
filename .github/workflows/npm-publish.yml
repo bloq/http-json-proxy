@@ -1,0 +1,14 @@
+name: NPM Publish
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  npm-publish:
+    permissions:
+      contents: read
+      id-token: write
+    secrets: inherit
+    uses: bloq/actions/.github/workflows/npm-publish.yml@v1
