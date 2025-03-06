@@ -1,39 +1,34 @@
 # http-json-proxy
 
-[![Build Status](https://travis-ci.org/bloq/http-json-proxy.svg?branch=master)](https://travis-ci.org/bloq/http-json-proxy)
-[![bitHound Overall Score](https://www.bithound.io/github/bloq/http-json-proxy/badges/score.svg)](https://www.bithound.io/github/bloq/http-json-proxy)
-[![bitHound Dependencies](https://www.bithound.io/github/bloq/http-json-proxy/badges/dependencies.svg)](https://www.bithound.io/github/bloq/http-json-proxy/master/dependencies/npm)
-[![bitHound Code](https://www.bithound.io/github/bloq/http-json-proxy/badges/code.svg)](https://www.bithound.io/github/bloq/http-json-proxy)
-
 Simple HTTP JSON proxy.
 
 This proxy can be used as a middleman in between a HTTP JSON API server and a client to monitor the requests, responses and even modify on the fly any of those.
 
 ## Installation
 
-```bash
-$ npm install --global http-json-proxy
+```sh
+npm install --global http-json-proxy
 ```
 
 ## Usage
 
 The following command will spin up a proxy server that will forward all requests to a locally installed Ethereum node and will log to console each JSON RPC call with the corresponding response:
 
-```
+```console
 $ http-json-proxy -p 18545 -t http://localhost:8545
 Proxy for http://localhost:8545 listening on port 18545
 ```
 
 Then, each call will be logged as follows:
 
-```
+```text
 --> POST / {"jsonrpc":"2.0","id":3,"method":"eth_gasPrice","params":[]}
 <-- {"jsonrpc":"2.0","result":"0x2e90edd000","id":3}
 ```
 
 ### Options
 
-```
+```console
 $ http-json-proxy
 Start a HTTP JSON proxy server.
 

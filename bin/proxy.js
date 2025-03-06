@@ -17,8 +17,8 @@ const argv = yargs
   })
   .options('target', {
     alias: 't',
-    describe: 'the proxied API server URL',
     demandOption: true,
+    describe: 'the proxied API server URL',
     type: 'string'
   })
   .options('pretty-print', {
@@ -27,26 +27,26 @@ const argv = yargs
   .help()
   .parse()
 
-const { port, target, prettyPrint } = argv
+const { port, prettyPrint, target } = argv
 
 const formatJson = object =>
   colorize(prettyPrint ? JSON.stringify(object, null, 2) : object)
 
 const proxy = createProxy({
-  port,
-  target,
-  onReq (req) {
+  onErr(err) {
+    console.warn('<-- ERROR', err.message)
+    return err
+  },
+  onReq(req) {
     console.log('-->', req.method, req.url, formatJson(req.body))
     return req
   },
-  onRes (body) {
+  onRes(body) {
     console.log('<--', formatJson(body))
     return body
   },
-  onErr (err) {
-    console.warn('<-- ERROR', err.message)
-    return err
-  }
+  port,
+  target
 })
 
 proxy.on('listening', function () {
