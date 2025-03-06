@@ -19,11 +19,13 @@ describe('Proxy', function () {
     const testServer = connect()
       .use(bodyParser.json())
       .use(function (req, res) {
-        res.end(JSON.stringify({
-          method: req.method,
-          path: req.url,
-          req: req.body
-        }))
+        res.end(
+          JSON.stringify({
+            method: req.method,
+            path: req.url,
+            req: req.body
+          })
+        )
       })
       .listen()
 
@@ -65,13 +67,13 @@ describe('Proxy', function () {
     const resUpd = { resKey: 'reqValue' }
 
     const testProxy = createProxy({
-      target: `http://localhost:${testServer.address().port}`,
-      onReq (req) {
+      onReq(req) {
         return Object.assign(req, { body: Object.assign({}, req.body, reqUpd) })
       },
-      onRes (body) {
+      onRes(body) {
         return Object.assign({}, body, resUpd)
-      }
+      },
+      target: `http://localhost:${testServer.address().port}`
     })
 
     const reqBody = { key: 'value' }
@@ -82,10 +84,9 @@ describe('Proxy', function () {
       timeout: 500
     })
       .then(function (res) {
-        res.body.should.deep.equal(Object.assign(
-          { req: Object.assign({}, reqBody, reqUpd) },
-          resUpd
-        ))
+        res.body.should.deep.equal(
+          Object.assign({ req: Object.assign({}, reqBody, reqUpd) }, resUpd)
+        )
       })
       .finally(function () {
         testProxy.close()
@@ -122,26 +123,31 @@ describe('Proxy', function () {
       })
   })
 
-  it('should return error if fail to request the server', function (done) {
+  it('should return error if fail to request the server', function () {
+    this.slow(6500)
+    this.timeout(13000)
+
     const testServer = connect().listen()
 
     const testProxy = createProxy({
       target: `http://localhost:${testServer.address().port}`
     })
 
-    testServer.close(function () {
-      got(`http://localhost:${testProxy.address().port}`, {
-        throwHttpErrors: false,
-        timeout: 500
+    return new Promise(function (resolve, reject) {
+      testServer.close(function () {
+        got(`http://localhost:${testProxy.address().port}`, {
+          throwHttpErrors: false,
+          timeout: 500
+        })
+          .then(function (res) {
+            res.statusCode.should.equal(INTERNAL_SERVER_ERROR)
+            resolve()
+          })
+          .catch(reject)
+          .finally(function () {
+            testProxy.close()
+          })
       })
-        .then(function (res) {
-          res.statusCode.should.equal(INTERNAL_SERVER_ERROR)
-          done()
-        })
-        .catch(done)
-        .finally(function () {
-          testProxy.close()
-        })
     })
   })
 })

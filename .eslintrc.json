@@ -1,8 +1,27 @@
 {
-  "env": {
-    "node": true
-  },
-  "extends": [
-    "bloq"
-  ]
+  "extends": ["bloq", "bloq/node", "prettier"],
+  "ignorePatterns": ["coverage"],
+  "overrides": [
+    {
+      "files": ["bin/*.js"],
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
+      "extends": ["bloq/mocha", "prettier"],
+      "files": ["*.spec.js"],
+      "rules": {
+        "promise/catch-or-return": [
+          "error",
+          {
+            "allowFinally": true
+          }
+        ]
+      }
+    }
+  ],
+  "rules": {
+    "jsdoc/require-returns": "off"
+  }
 }

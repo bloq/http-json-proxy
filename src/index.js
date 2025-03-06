@@ -50,24 +50,20 @@ function getProxyOptions(target) {
  * can be used to inspect or even modify the data flowing through the proxy. By
  * default, all handlers are the identity function so no data is altered.
  *
- * @param {Object} options define the proxy behavior.
+ * @param {object} options define the proxy behavior.
  * @param {number} [options.port] is the port the proxy will listen on.
  * @param {string} [options.host] is the host the proxy will listen on.
  * @param {string} options.target is the proxied API URL.
  * @param {Function} [options.onReq] will be called on each request.
  * @param {Function} [options.onRes] will be called on each response.
  * @param {Function} [options.onErr] will be called on each request error.
- * @returns {http.Server} the created HTTP server object.
  */
-function createProxy (options) {
-  const {
-    port,
-    host,
-    target,
-    onReq,
-    onRes,
-    onErr
-  } = Object.assign({}, onDefaults, options)
+function createProxy(options) {
+  const { host, onErr, onReq, onRes, port, target } = Object.assign(
+    {},
+    onDefaults,
+    options
+  )
 
   const proxy = httpProxy.createProxyServer(getProxyOptions(target))
 
