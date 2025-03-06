@@ -37,6 +37,7 @@
     "http-proxy": "1.18.1",
     "json-colorizer": "1.1.0",
     "node-http-proxy-json": "0.1.6",
+    "selfsigned": "^2.4.1",
     "yargs": "15.4.1"
   },
   "devDependencies": {

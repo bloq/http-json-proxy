@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const connect = require('connect')
 const httpProxy = require('http-proxy')
 const modifyResponse = require('node-http-proxy-json')
+const selfsigned = require('selfsigned')
 
 const identity = require('../lib/identity')
 
@@ -14,6 +15,31 @@ const onDefaults = {
   onErr: identity,
   onReq: identity,
   onRes: identity
+}
+
+/**
+ * Returns the proxy server options for the specified target URL. If the target
+ * URL is an HTTPS URL, the options will include a self-signed certificate.
+ *
+ * @param {string} target The target URL.
+ */
+function getProxyOptions(target) {
+  if (target.startsWith('https://')) {
+    const attrs = [{ name: 'commonName', value: 'http-json-proxy.npm' }]
+    const pfxOptions = { days: 365 }
+    const pfx = selfsigned.generate(attrs, pfxOptions)
+    return {
+      changeOrigin: true,
+      target: {
+        host: 'http-json-proxy.npm',
+        pfx: Buffer.from(pfx.private + pfx.cert, 'utf-8'),
+        port: 443,
+        protocol: 'https:'
+      }
+    }
+  }
+
+  return {}
 }
 
 /**
@@ -43,7 +69,7 @@ function createProxy (options) {
     onErr
   } = Object.assign({}, onDefaults, options)
 
-  const proxy = httpProxy.createProxyServer({})
+  const proxy = httpProxy.createProxyServer(getProxyOptions(target))
 
   proxy.on('proxyReq', function (proxyReq, req) {
     if (req.body) {
